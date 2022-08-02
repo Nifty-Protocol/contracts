@@ -1,0 +1,15 @@
+{
+    "extends": "airbnb-base",
+    "rules": {
+        "no-console": "off",
+        "no-unused-vars": "warn",
+        "comma-dangle": "off",
+        "no-param-reassign": "warn",
+        "no-undef": "warn",
+        "no-underscore-dangle": "off",
+        "max-len": ["error", 120],
+        "key-spacing": [2, {
+            "align": "colon"
+        }]
+    }
+}
