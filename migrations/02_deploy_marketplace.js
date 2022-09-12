@@ -4,15 +4,15 @@ const ERC1155Proxy = artifacts.require('ERC1155Proxy');
 const MultiAssetProxy = artifacts.require('MultiAssetProxy');
 const Exchange = artifacts.require('Exchange');
 const LibAssetData = artifacts.require('LibAssetData');
-const WETH = artifacts.require('WETH');
+const WETH = artifacts.require('MockWETH');
+
+const chainId = 5777;
+var WETH_ADDRESS = '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6';
 
 const deploy = async (deployer, network, accounts) => {
-  // Chain ID
-  const chainId = 5777;
-  // Ether token
   await deployer.deploy(WETH);
-
-  const etherToken = await WETH.deployed();
+  const weth = await WETH.deployed();
+  WETH_ADDRESS = weth.address;
 
   await deployer.deploy(LibAssetData);
 
@@ -47,7 +47,7 @@ const deploy = async (deployer, network, accounts) => {
   await exchange.registerAssetProxy(erc1155Proxy.address);
   await exchange.registerAssetProxy(multiAssetProxy.address);
 
-  await erc20Proxy.addToken(etherToken.address);
+  await erc20Proxy.addToken(WETH_ADDRESS);
 
   console.log('done running migrations');
 };

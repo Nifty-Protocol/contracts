@@ -282,9 +282,9 @@ abstract contract ExchangeCore is
             return orderInfo;
         }
 
-        // Validate order expiration
-        if (block.timestamp >= order.expirationTimeSeconds) {
-            orderInfo.orderStatus = LibOrder.OrderStatus.EXPIRED;
+        // Check if order has been filled
+        if (filled[orderInfo.orderHash]) {
+            orderInfo.orderStatus = LibOrder.OrderStatus.FILLED;
             return orderInfo;
         }
 
@@ -294,14 +294,14 @@ abstract contract ExchangeCore is
             return orderInfo;
         }
 
-        // Check if order has been filled
-        if (filled[orderInfo.orderHash]) {
-            orderInfo.orderStatus = LibOrder.OrderStatus.FILLED;
+        if (orderEpoch[order.makerAddress] > order.salt) {
+            orderInfo.orderStatus = LibOrder.OrderStatus.CANCELLED;
             return orderInfo;
         }
 
-        if (orderEpoch[order.makerAddress] > order.salt) {
-            orderInfo.orderStatus = LibOrder.OrderStatus.CANCELLED;
+        // Validate order expiration
+        if (block.timestamp >= order.expirationTimeSeconds) {
+            orderInfo.orderStatus = LibOrder.OrderStatus.EXPIRED;
             return orderInfo;
         }
 

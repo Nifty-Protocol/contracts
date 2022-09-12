@@ -41,8 +41,7 @@ abstract contract IExchangeCore {
     /// @param targetOrderEpoch Orders created with a salt less or equal to this value will be cancelled.
     function cancelOrdersUpTo(uint256 targetOrderEpoch)
         virtual
-        external
-        payable;
+        external;
 
     /// @dev Fills the input order.
     /// @param order Order struct containing order specifications.
@@ -54,7 +53,7 @@ abstract contract IExchangeCore {
         bytes32 marketIdentifier
     )
         virtual
-        public
+        external
         payable
         returns (bool fulfilled);
 
@@ -70,7 +69,7 @@ abstract contract IExchangeCore {
         address takerAddress
     )
         virtual
-        public
+        external
         payable
         returns (bool fulfilled);
 
@@ -78,8 +77,7 @@ abstract contract IExchangeCore {
     /// @param order Order struct containing order specifications.
     function cancelOrder(LibOrder.Order memory order)
         virtual
-        public
-        payable;
+        external;
 
     /// @dev Gets information about an order: status, hash, and amount filled.
     /// @param order Order to gather information on.
@@ -87,7 +85,7 @@ abstract contract IExchangeCore {
     ///                   See LibOrder.OrderInfo for a complete description.
     function getOrderInfo(LibOrder.Order memory order)
         virtual
-        public
+        external
         view
         returns (LibOrder.OrderInfo memory orderInfo);
 }

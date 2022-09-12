@@ -21,4 +21,8 @@ module.exports = {
       version: '0.8.4',
     },
   },
+
+  plugins: [
+    'solidity-coverage',
+  ],
 };

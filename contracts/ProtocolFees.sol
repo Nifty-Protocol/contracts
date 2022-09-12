@@ -27,8 +27,8 @@ contract ProtocolFees is
         external
         onlyOwner
     {
-        protocolFeeMultiplier = updatedProtocolFeeMultiplier;
         emit ProtocolFeeMultiplier(protocolFeeMultiplier, updatedProtocolFeeMultiplier);
+        protocolFeeMultiplier = updatedProtocolFeeMultiplier;
     }
 
     /// @dev Allows the owner to update the protocol fixed fee.
@@ -38,8 +38,8 @@ contract ProtocolFees is
         external
         onlyOwner
     {
-        protocolFixedFee = updatedProtocolFixedFee;
         emit ProtocolFixedFee(protocolFixedFee, updatedProtocolFixedFee);
+        protocolFixedFee = updatedProtocolFixedFee;
     }
 
     /// @dev Allows the owner to update the protocolFeeCollector address.
@@ -49,7 +49,7 @@ contract ProtocolFees is
         external
         onlyOwner
     {
-        protocolFeeCollector = updatedProtocolFeeCollector;
         emit ProtocolFeeCollectorAddress(protocolFeeCollector, updatedProtocolFeeCollector);
+        protocolFeeCollector = updatedProtocolFeeCollector;
     }
 }

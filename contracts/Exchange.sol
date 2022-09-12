@@ -23,7 +23,7 @@ contract Exchange is
         bytes32 marketplaceIdentifier
     )
         override
-        public
+        external
         payable
         refundFinalBalanceNoReentry
         returns (bool fulfilled)
@@ -48,7 +48,7 @@ contract Exchange is
         address takerAddress
     )
         override
-        public
+        external
         payable
         refundFinalBalanceNoReentry
         returns (bool fulfilled)
@@ -65,9 +65,7 @@ contract Exchange is
     /// @param order Order struct containing order specifications.
     function cancelOrder(LibOrder.Order memory order)
         override
-        public
-        payable
-        refundFinalBalanceNoReentry
+        external
     {
         _cancelOrder(order);
     }
@@ -78,8 +76,6 @@ contract Exchange is
     function cancelOrdersUpTo(uint256 targetOrderEpoch)
         override
         external
-        payable
-        refundFinalBalanceNoReentry
     {
         address makerAddress = msg.sender;
         // orderEpoch is initialized to 0, so to cancelUpTo we need salt + 1
@@ -112,11 +108,11 @@ contract Exchange is
         return _getOrderInfo(order);
     }
 
-    function returnAllETHToOwner() public payable onlyOwner {
+    function returnAllETHToOwner() external payable onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
     }
 
-    function returnERC20ToOwner(address ERC20Token) public payable onlyOwner {
+    function returnERC20ToOwner(address ERC20Token) external payable onlyOwner {
         IERC20 CustomToken = IERC20(ERC20Token);
         CustomToken.transferFrom(address(this), msg.sender, CustomToken.balanceOf(address(this)));
     }
