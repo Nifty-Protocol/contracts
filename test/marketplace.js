@@ -36,6 +36,7 @@ contract('NiftyProtocol', (accounts) => {
   const buyer = accounts[1];
   const seller = accounts[2];
   const royaltiesAddress = accounts[3];
+  const feeCollectorAddress = accounts[5];
 
   before(async () => {
     exchange = await NiftyProtocol.deployed();
@@ -50,9 +51,9 @@ contract('NiftyProtocol', (accounts) => {
 
     marketplaceIdentifier = web3.utils.sha3('nftrade');
 
-    await exchange.setProtocolFeeMultiplier(new BigNumber(2));
-    await exchange.setProtocolFeeCollectorAddress(accounts[5]);
-    await exchange.registerMarketplace(marketplaceIdentifier, 26, accounts[7]);
+    await exchange.setProtocolFeeMultiplier(new BigNumber(20));
+    await exchange.setProtocolFeeCollectorAddress(feeCollectorAddress);
+    await exchange.registerMarketplace(marketplaceIdentifier, 50, accounts[7]);
     // await exchange.marketplaceDistribution(false);
   });
 
@@ -199,6 +200,7 @@ contract('NiftyProtocol', (accounts) => {
       const value = order.signedOrder.takerAssetAmount;
 
       const royaltiesBalanceBefore = await web3.eth.getBalance(royaltiesAddress);
+      const feeCollectorBalanceBefore = await web3.eth.getBalance(feeCollectorAddress);
 
       const buyOrder = await exchange.fillOrder(
         order.signedOrder,
@@ -211,7 +213,10 @@ contract('NiftyProtocol', (accounts) => {
       );
 
       const royaltiesBalanceAfter = await web3.eth.getBalance(royaltiesAddress);
+      const feeCollectorBalanceAfter = await web3.eth.getBalance(feeCollectorAddress);
+
       assert.equal(new BigNumber(royaltiesBalanceAfter).minus(royaltiesBalanceBefore).toFixed(), web3.utils.toWei(String(0.1 * 0.1)));
+      assert.equal(new BigNumber(feeCollectorBalanceAfter).minus(feeCollectorBalanceBefore).toFixed(), web3.utils.toWei(String(0.1 * 0.02 * 0.5)));
     });
 
     it('Buying a listed asset with eth as a gift', async () => {

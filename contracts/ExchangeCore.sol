@@ -358,7 +358,7 @@ abstract contract ExchangeCore is
                 protocolFee = protocolFixedFee;
                 protocolAssetData = abi.encodeWithSelector(IAssetData(address(0)).ERC20Token.selector, address(0));
             } else if (protocolFeeMultiplier > 0) {
-                protocolFee = buyerPayment.mul(protocolFeeMultiplier).div(100);
+                protocolFee = buyerPayment.mul(protocolFeeMultiplier).div(1000); // 10 times the fee to support decimals - 20 -> 2%
                 buyerPayment = buyerPayment.sub(protocolFee);
             }
 
