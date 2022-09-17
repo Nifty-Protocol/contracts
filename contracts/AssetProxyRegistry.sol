@@ -97,7 +97,9 @@ contract AssetProxyRegistry is
                 if (address(this).balance < amount) {
                     revert("ASSET PROXY: insufficient balance");
                 }
-                payable(to).transfer(amount);
+                // payable(to).transfer(amount);
+                (bool success, ) = to.call{value: amount}("");
+                require(success, "ASSET PROXY: eth transfer failed");
             } else {
                 // Construct the calldata for the transferFrom call.
                 bytes memory proxyCalldata = abi.encodeWithSelector(

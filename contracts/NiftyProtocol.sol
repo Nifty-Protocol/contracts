@@ -5,11 +5,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Refundable.sol";
 import "./ExchangeCore.sol";
 
-contract Exchange is
+contract NiftyProtocol is
     Ownable,
     Refundable,
     ExchangeCore
 {
+    string public name = "Nifty Protocol";
 
     constructor (uint256 chainId) LibEIP712ExchangeDomain(chainId) {}
     
